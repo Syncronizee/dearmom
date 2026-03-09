@@ -267,18 +267,86 @@
       line-height:1.85; color:var(--muted);
     }
 
-    .tl-media {
-      margin-top:1.25rem; border-radius:12px; overflow:hidden;
-      border:1px dashed rgba(201,134,58,.32);
-      background:linear-gradient(135deg,rgba(245,226,200,.45),rgba(236,219,180,.45));
-      height:140px; display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      gap:.4rem; color:var(--muted); font-size:.76rem;
-      letter-spacing:.06em; transition:border-color .3s; cursor:pointer;
+    /* ── CAROUSEL ── */
+    .carousel {
+      margin-top:1.25rem;
+      border-radius:12px;
+      overflow:hidden;
+      position:relative;
+      background:#f0e4d0;
+      aspect-ratio:4/3;
+      touch-action:pan-y;
     }
 
-    .tl-media:hover { border-color:var(--gold); }
-    .tl-media-icon  { font-size:1.7rem; opacity:.5; }
+    .carousel-track {
+      display:flex;
+      height:100%;
+      transition:transform .4s cubic-bezier(.4,0,.2,1);
+      will-change:transform;
+    }
+
+    .carousel-slide {
+      flex:0 0 100%;
+      height:100%;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .carousel-slide img {
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      border-radius:0;
+      draggable:false;
+      user-select:none;
+    }
+
+    /* placeholder slide */
+    .carousel-slide.placeholder {
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      gap:.5rem; color:var(--muted);
+      font-size:.76rem; letter-spacing:.06em;
+      background:linear-gradient(135deg,rgba(245,226,200,.5),rgba(236,219,180,.5));
+      border:1px dashed rgba(201,134,58,.32);
+      border-radius:12px;
+      cursor:pointer;
+    }
+
+    .placeholder-icon { font-size:1.8rem; opacity:.5; }
+
+    /* nav arrows */
+    .carousel-btn {
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:30px; height:30px; border-radius:50%;
+      background:rgba(255,252,247,.85); border:1px solid rgba(201,134,58,.3);
+      color:var(--gold); font-size:.9rem; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      z-index:4; transition:background .2s, transform .2s;
+      backdrop-filter:blur(4px);
+      box-shadow:0 2px 8px rgba(90,50,20,.12);
+    }
+
+    .carousel-btn:hover { background:rgba(255,252,247,1); transform:translateY(-50%) scale(1.1); }
+    .carousel-btn.prev { left:8px; }
+    .carousel-btn.next { right:8px; }
+
+    /* hide arrows if only 1 slide */
+    .carousel[data-count="1"] .carousel-btn { display:none; }
+
+    /* dots */
+    .carousel-dots {
+      position:absolute; bottom:8px; left:50%; transform:translateX(-50%);
+      display:flex; gap:5px; z-index:4;
+    }
+
+    .carousel-dot {
+      width:6px; height:6px; border-radius:50%;
+      background:rgba(255,252,247,.6); border:1px solid rgba(201,134,58,.4);
+      cursor:pointer; transition:background .2s, transform .2s;
+    }
+
+    .carousel-dot.active { background:var(--gold); transform:scale(1.3); }
 
     .tl-spacer { flex:1; max-width:400px; }
     @media(max-width:640px){ .tl-spacer{ display:none; } }
@@ -456,7 +524,16 @@
       <p class="tl-date">24 / 02 / 2024</p>
       <h3 class="tl-title">Khởi đầu hành trình 90 ngày</h3>
       <p class="tl-body">Mẹ bắt đầu hành trình giảm eo không cần tập gym — một quyết tâm nhỏ nhưng ý chí lớn. Không phải ai cũng dám bắt đầu.</p>
-      <div class="tl-media"><span class="tl-media-icon">🖼</span><span>Thêm ảnh / video tại đây</span></div>
+      <div class="carousel" data-count="3">
+        <div class="carousel-track">
+          <div class="carousel-slide"><img src="images/90days-1.jpg" alt=""/></div>
+          <div class="carousel-slide"><img src="images/90days-2.jpg" alt=""/></div>
+          <div class="carousel-slide"><img src="images/90days-3.jpg" alt=""/></div>
+        </div>
+        <button class="carousel-btn prev">&#8592;</button>
+        <button class="carousel-btn next">&#8594;</button>
+        <div class="carousel-dots"></div>
+      </div>
     </div>
     <div class="tl-spacer"></div>
   </div>
@@ -470,7 +547,16 @@
       <p class="tl-date">Sau 90 ngày</p>
       <h3 class="tl-title">Mẹ đã làm được!</h3>
       <p class="tl-body">Sau đúng 90 ngày kiên trì, mẹ thành công. Và điều đẹp hơn cả — mẹ không giữ bí quyết cho riêng mình, mẹ bắt đầu dạy lại mọi người. Đó là sức mạnh thật sự.</p>
-      <div class="tl-media"><span class="tl-media-icon">🎬</span><span>Thêm ảnh / video kết quả</span></div>
+      <div class="carousel" data-count="3">
+        <div class="carousel-track">
+          <div class="carousel-slide"><img src="images/result-1.jpg" alt=""/></div>
+          <div class="carousel-slide"><img src="images/result-2.jpg" alt=""/></div>
+          <div class="carousel-slide"><img src="images/result-3.jpg" alt=""/></div>
+        </div>
+        <button class="carousel-btn prev">&#8592;</button>
+        <button class="carousel-btn next">&#8594;</button>
+        <div class="carousel-dots"></div>
+      </div>
     </div>
   </div>
 
@@ -482,7 +568,16 @@
       <p class="tl-date">07 / 09 / 2025</p>
       <h3 class="tl-title">Chiếc Thermomix đặc biệt</h3>
       <p class="tl-body">Mẹ mua chiếc máy Thermomix và bắt đầu nấu những món ăn ngon cho cả nhà. Mỗi bữa cơm là một bữa yêu thương — cả nhà ai cũng nhớ mãi.</p>
-      <div class="tl-media"><span class="tl-media-icon">🍽</span><span>Thêm ảnh những món mẹ nấu</span></div>
+      <div class="carousel" data-count="3">
+        <div class="carousel-track">
+          <div class="carousel-slide"><img src="images/thermomix-1.jpg" alt=""/></div>
+          <div class="carousel-slide"><img src="images/thermomix-2.jpg" alt=""/></div>
+          <div class="carousel-slide"><img src="images/thermomix-3.jpg" alt=""/></div>
+        </div>
+        <button class="carousel-btn prev">&#8592;</button>
+        <button class="carousel-btn next">&#8594;</button>
+        <div class="carousel-dots"></div>
+      </div>
     </div>
     <div class="tl-spacer"></div>
   </div>
@@ -496,7 +591,16 @@
       <p class="tl-date">01 / 01 / 2026</p>
       <h3 class="tl-title">Sinh nhật mẹ</h3>
       <p class="tl-body">Một năm mới, một tuổi mới — cả nhà bên nhau trong ngày đặc biệt nhất. Nụ cười của mẹ hôm đó là món quà đẹp nhất cho chúng con.</p>
-      <div class="tl-media"><span class="tl-media-icon">📸</span><span>Ảnh gia đình ngày sinh nhật</span></div>
+      <div class="carousel" data-count="3">
+        <div class="carousel-track">
+          <div class="carousel-slide"><img src="images/birthday-1.jpg" alt=""/></div>
+          <div class="carousel-slide"><img src="images/birthday-2.jpg" alt=""/></div>
+          <div class="carousel-slide"><img src="images/birthday-3.jpg" alt=""/></div>
+        </div>
+        <button class="carousel-btn prev">&#8592;</button>
+        <button class="carousel-btn next">&#8594;</button>
+        <div class="carousel-dots"></div>
+      </div>
     </div>
   </div>
 
@@ -508,7 +612,16 @@
       <p class="tl-date">01 / 09 / 2026</p>
       <h3 class="tl-title">Gala Dinner</h3>
       <p class="tl-body">Một buổi tối sang trọng, lộng lẫy — mẹ xứng đáng được tận hưởng những khoảnh khắc như thế này. Mẹ đẹp nhất trong căn phòng đó.</p>
-      <div class="tl-media"><span class="tl-media-icon">🥂</span><span>Thêm ảnh / video gala</span></div>
+      <div class="carousel" data-count="3">
+        <div class="carousel-track">
+          <div class="carousel-slide"><img src="images/gala-1.jpg" alt=""/></div>
+          <div class="carousel-slide"><img src="images/gala-2.jpg" alt=""/></div>
+          <div class="carousel-slide"><img src="images/gala-3.jpg" alt=""/></div>
+        </div>
+        <button class="carousel-btn prev">&#8592;</button>
+        <button class="carousel-btn next">&#8594;</button>
+        <div class="carousel-dots"></div>
+      </div>
     </div>
     <div class="tl-spacer"></div>
   </div>
@@ -647,7 +760,39 @@ window.addEventListener('scroll',()=>{
   if(h) h.style.transform=`translateY(${window.scrollY*.22}px)`;
 },{passive:true});
 
-/* ── 3D TILT ── */
+/* ── CAROUSELS ── */
+document.querySelectorAll('.carousel').forEach(car => {
+  const track  = car.querySelector('.carousel-track');
+  const slides = car.querySelectorAll('.carousel-slide');
+  const dotsWrap = car.querySelector('.carousel-dots');
+  const total  = slides.length;
+  let cur = 0;
+
+  // build dots
+  slides.forEach((_,i) => {
+    const d = document.createElement('div');
+    d.className = 'carousel-dot' + (i===0?' active':'');
+    d.addEventListener('click', () => go(i));
+    dotsWrap.appendChild(d);
+  });
+
+  function go(n){
+    cur = (n + total) % total;
+    track.style.transform = `translateX(-${cur*100}%)`;
+    car.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i===cur));
+  }
+
+  car.querySelector('.prev').addEventListener('click', () => go(cur-1));
+  car.querySelector('.next').addEventListener('click', () => go(cur+1));
+
+  // touch swipe
+  let tx = 0;
+  car.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  car.addEventListener('touchend',   e => {
+    const diff = tx - e.changedTouches[0].clientX;
+    if(Math.abs(diff) > 40) go(diff > 0 ? cur+1 : cur-1);
+  }, {passive:true});
+});
 document.querySelectorAll('.tl-card').forEach(card=>{
   card.addEventListener('mousemove',e=>{
     const r=card.getBoundingClientRect();
